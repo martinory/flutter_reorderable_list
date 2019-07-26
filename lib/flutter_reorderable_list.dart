@@ -356,7 +356,7 @@ class _ReorderableListState extends State<ReorderableList>
         lowerBound: 0.0,
         upperBound: 1.0,
         value: 0.0,
-        duration: Duration(milliseconds: 300));
+        duration: Duration(milliseconds: 200));
 
     _finalAnimation.addListener(() {
       _dragProxy.offset =
@@ -655,57 +655,20 @@ class _DragProxyState extends State<_DragProxy> {
 
     return _widget != null && _size != null && _offset != null
         ? new Positioned.fromRect(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Opacity(
-                    opacity: _shadowOpacity,
-                    child: Container(
-                      height: decorationHeight,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              bottom: BorderSide(
-                                  color: Color(0x50000000),
-                                  width: 1.0 / mq.devicePixelRatio)),
-                          gradient: LinearGradient(
-                              begin: Alignment(0.0, -1.0),
-                              end: Alignment(0.0, 1.0),
-                              colors: <Color>[
-                                Color(0x00000000),
-                                Color(0x10000000),
-                                Color(0x30000000)
-                              ])),
-                    )),
-                IgnorePointer(
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    child: _widget,
-                    removeTop: true,
-                    removeBottom: true,
-                  ),
+            child: IgnorePointer(
+              child: MediaQuery.removePadding(
+                context: context,
+                child: Material(
+                  color: Colors.transparent,
+                  elevation: 8 * _shadowOpacity,
+                  child: _widget,
                 ),
-                Opacity(
-                    opacity: _shadowOpacity,
-                    child: Container(
-                      height: decorationHeight,
-                      decoration: BoxDecoration(
-                          border: Border(
-                              top: BorderSide(
-                                  color: Color(0x50000000),
-                                  width: 1.0 / mq.devicePixelRatio)),
-                          gradient: LinearGradient(
-                              begin: Alignment(0.0, -1.0),
-                              end: Alignment(0.0, 1.0),
-                              colors: <Color>[
-                                Color(0x30000000),
-                                Color(0x10000000),
-                                Color(0x00000000)
-                              ])),
-                    )),
-              ],
+                removeTop: true,
+                removeBottom: true,
+              ),
             ),
-            rect: new Rect.fromLTWH(0.0, _offset - decorationHeight,
-                _size.width, _size.height + decorationHeight * 2 + 1.0))
+            rect: new Rect.fromLTWH(0.0, _offset,
+                _size.width, _size.height))
         : new Container(width: 0.0, height: 0.0);
   }
 
